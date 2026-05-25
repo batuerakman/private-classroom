@@ -1,0 +1,288 @@
+Final Project: Design and Build a Multi-Agent System
+
+Group Size: 1, 2,
+
+Showcase 1: 7 May 2026. Plan Presentation
+
+Showcase 2: 21 May 2026. Final Demo & Submission
+
+
+1. Project Overview
+
+Throughout this course, we followed Kael, an NPC who started with nothing and slowly gained a brain, a persona, senses, tools, memory, and finally the ability to coordinate with other agents. Your final project is your version of that journey: not for a single character, but for an entire team of agents working together.
+
+You will design and build a functional multi-agent system that solves a real problem. This is not a chatbot assignment. This is not a single agent assignment. You will design at least two agents with distinct roles, give them tools, write their instructions, and put guardrails around what they are and aren't allowed to do.
+
+Topic Selection is fully open. Your project does not have to be game-related. It can be:
+
+    A research assistant team
+    A content production pipeline
+    A code review system
+    A travel planner
+    A customer support workflow
+    A study buddy with a quiz master
+    A game NPC team
+    Anything where multiple agents working together make sense
+
+What we care about is the system design, not the topic.
+
+The Goal: To prove you can design a purposeful, bounded, and safe multi-agent system whose roles, permissions, and failure modes you can describe, defend, and debug.
+
+
+2. Project Roadmap & Timeline
+
+This project has two mandatory milestones. There is no "last-minute sprint" path through this one.
+
+🗓️ Showcase 1 on May 7: The Plan (5 to 8 minute pitch)
+
+Goal: Prove that you have a clear design and a credible plan. No working system required yet.
+
+Required content:
+
+   #
+	
+
+What
+	
+
+Questions to answer
+
+   1
+	
+
+The Problem
+	
+
+What does your system do? Who would use it? Why is a single agent not enough, and what does "multi-agent" buy you?
+
+   2
+	
+
+The Agents
+	
+
+Who are your agents? What does each one do? Why do they exist as separate roles? (e.g., Researcher + Writer + Critic, or Planner + Executor + Referee)
+
+   3
+	
+
+The Tools
+	
+
+What tools will each agent have access to? Which agent gets which tool, and why?
+
+   4
+	
+
+The Instructions
+	
+
+High-level idea of each agent's persona / system prompt. What identity, what scope, what tone?
+
+   5
+	
+
+The Guardrails
+	
+
+What is your system not allowed to do? What checks will stop bad outputs?
+
+   6
+	
+
+The Risk
+	
+
+What could go wrong? What is your simplest fallback if the full plan is too ambitious?
+
+   Note: Feedback from this session is part of the grade. Show up with a design worth discussing, not a vague idea.
+
+
+🗓️ Showcase 2 on May 21: The Final Demo (12 to 15 minutes)
+
+Goal: Run a live demonstration of a working multi-agent system. Explain every design decision.
+
+Required content:
+
+   #
+	
+
+What
+	
+
+What you need to show
+
+   1
+	
+
+Live demo
+	
+
+The system runs end-to-end. Agents take turns, hand off work, and produce a real result. (Recorded video acceptable if live is impractical.)
+
+   2
+	
+
+The agents in action
+	
+
+Show that each agent actually does its declared role. If you have a Critic agent, show a case where it overrides the Writer.
+
+   3
+	
+
+Tool use
+	
+
+Show tools being called. Explain why each agent has access to its tools and why not to the others.
+
+   4
+	
+
+Instructions
+	
+
+Show the system prompts. Explain why each one is written that way. What happens if you weaken or remove a constraint?
+
+   5
+	
+
+Guardrails
+	
+
+Demonstrate at least one guardrail blocking unsafe or invalid output. Show what would happen without it.
+
+   6
+	
+
+Failure case
+	
+
+Show one thing the system gets wrong. Explain where in the pipeline it failed (which agent? which tool? which check?). This is not a deduction; it shows you understand your system.
+
+   7
+	
+
+Code walkthrough
+	
+
+Walk through the architecture. I may ask about any line.
+
+   3. Technical Requirements
+
+Required for all groups
+
+   Requirement
+	
+
+Minimum
+
+   At least 2 agents
+	
+
+With genuinely different roles. Two agents with the same prompt do not count.
+
+   Coordination logic
+	
+
+Agents must hand off, route, or react to each other. Sequential, supervisor-based, or peer-to-peer: pick one and justify it.
+
+   LLM backbone
+	
+
+Real language model via API (Claude, GPT, Gemini, or open-weight model).
+
+   Instructions / system prompts
+	
+
+One deliberately written system prompt per agent. Stored in separate .md files, not buried in Python strings.
+
+   At least one tool per system
+	
+
+A structured function the agent can call: a search, a calculator, a database query, a validator, a file writer, etc. Tool inputs/outputs validated with Pydantic.
+
+   Guardrails
+	
+
+At least one explicit safety mechanism. Examples: input validation, output schema enforcement, allowlist for actions, a human-approval step, a rejection rule, content filtering, rate limit. The guardrail must actually trigger in your demo.
+
+   Explainable behavior
+	
+
+You must be able to say why the system did what it did at every step. "The model decided" is not an explanation.
+
+   What "guardrails" means in this course
+
+Guardrails are the boundaries you put around what the agents can do. They include:
+
+    Input guardrails: Refuse or sanitise unsafe / out-of-scope user input.
+    Output guardrails: Validate the agent's output before it reaches the user or the next agent (Pydantic schemas, regex checks, content filters).
+    Tool guardrails: Allowlists of which agent can call which tool. Argument validation. Rate limits.
+    Workflow guardrails: Human-in-the-loop approval for sensitive steps. Maximum loop iterations to prevent runaway agents.
+
+You must have at least one of these working and demonstrable. Putting try/except around an API call is not a guardrail.
+
+Recommended Stack (not required, but what we learned)
+
+
+LangChain   : model adapters, tool binding, structured output
+
+LangGraph   : orchestration, agent loop, state, routing
+
+Pydantic    : contracts for tool I/O, agent messages, guardrails
+
+FastAPI    : backend if you have a frontend
+
+Python 3.11+  : your environment
+
+Bonus (not required, but recognised)
+
+    ✨ 3+ agents with non-trivial coordination
+    ✨ Memory: vector store, conversation, or knowledge graph that persists across turns
+    ✨ Knowledge graph as the agents' shared world model
+    ✨ UI or visualisation showing agents at work (handoffs, tool calls, state)
+    ✨ Evaluation: a small test suite or eval set showing your system measurably improves over a single-agent baseline
+
+Code Quality
+
+Your repository or submission must include:
+
+    Clean, commented Python code (.py files and/or .ipynb notebooks).
+    A README.md explaining how to run the project.
+    System prompts in separate .md files, not buried in Python strings.
+    No hardcoded API keys. Use .env or environment variables.
+
+
+5. Forbidden Projects & Integrity
+
+❌ What this is NOT
+
+    A single-agent chatbot. No matter how impressive the prompt, a one-agent system does not meet the brief.
+    Two agents that look like one. If both agents have the same prompt and tools, that is one agent in disguise.
+    A wrapper. Calling the API and putting it in a web form is not a multi-agent system.
+    A tutorial clone. If I can find your exact architecture and code in a LangChain / LangGraph tutorial with different variable names, it will be treated as plagiarism.
+    No guardrails. A demo where the system happily does anything the user asks fails the brief.
+
+🚫 Plagiarism Policy: Zero Tolerance
+
+The Explanation Test applies to every team member. During Showcase 2, any member may be asked:
+
+"Walk me through this function."
+
+"Why does this agent have this tool but not that one?"
+
+"What does this guardrail block, and what would happen without it?"
+
+"Why did you choose this coordination pattern over a single agent?"
+
+If a team member cannot explain a part of the system that carries their name, it will be assumed they did not contribute to it.
+
+Using GitHub Copilot, ChatGPT, or Claude to assist your work is permitted. Submitting AI-generated code as your own design without understanding it is not.
+
+
+
+Final thought from the instructor:
+
+
+The best projects will not be the most technically complex. They will be the ones where the designer clearly understood why there are multiple agents, what each is allowed to do, and what stops the system from going off the rails.
